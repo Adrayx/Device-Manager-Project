@@ -1,0 +1,31 @@
+services:
+  spring-back-end:
+    build:
+      context: ./DS2022_30643_Moldovan_Andrei_1_Backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      DB_URL: jdbc:mysql://mysql-container/eongaz?allowPublicKeyRetrieval=true&useSSL=false
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    depends_on:
+      - mysql-container
+  react-front-end:
+    build:
+      context: ./DS2022_30643_Moldovan_Andrei_1_Frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - spring-back-end
+  mysql-container:
+    image: mysql:8.0.31
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: eongaz
+      MYSQL_ROOT_PASSWORD: root
+
+volumes:
+  dbdata:
