@@ -4,7 +4,7 @@ url = os.environ.get('CLOUDAMQP_URL', 'amqps://pxujpuqb:0QNynshiRNg12vK9kM785aqE
 params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params)
 channel = connection.channel()
-channel.queue_declare(queue='test_queue')
+channel.queue_declare(queue='measurements_queue')
 
 def callback(ch, method, properties, body):
     print('[x] Received: ')
@@ -12,7 +12,7 @@ def callback(ch, method, properties, body):
     print(obj)
 
 channel.basic_consume(
-    'test_queue',
+    'measurements_queue',
     callback,
     auto_ack=True
 )
